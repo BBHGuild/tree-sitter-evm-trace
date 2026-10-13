@@ -1,0 +1,189 @@
+==================
+Basic Trace
+==================
+
+Traces:
+  [1312683] CCCTest::setUp()
+    ├─ [0] VM::createSelectFork("bsc", 118384060 [1.183e8])
+    │   └─ ← [Return] 0
+    ├─ [0] VM::prank(SENDER : [0x7977BDeeE3A79Dc85Cc18739692e796B5D2513C4])
+    │   └─ ← [Return]
+    ├─ [1268373] → new Proof@0x32552037733c123A8cBD1966528539514e00250f
+    │   └─ ← [Return] 5626 bytes of code
+    └─ ← [Stop]
+
+---
+
+(source_file
+  (header
+    (header_keyword))
+  (call_trace
+    gas: (gas
+      amount: (number))
+    call: (call_expression
+      target: (identifier)
+      function: (identifier)
+      arguments: (argument_list)))
+  (call_trace
+    (tree_guide)
+    gas: (gas
+      amount: (number))
+    call: (call_expression
+      target: (identifier)
+      function: (identifier)
+      arguments: (argument_list
+        (string)
+        (number_with_estimate
+          value: (number)
+          estimate: (scientific_estimate
+            estimate: (estimate_value))))))
+  (return_trace
+    (tree_guide)
+    (tree_guide)
+    arrow: (return_arrow)
+    status: (return_status
+      (status_keyword))
+    value: (number))
+  (call_trace
+    (tree_guide)
+    gas: (gas
+      amount: (number))
+    call: (call_expression
+      target: (identifier)
+      function: (identifier)
+      arguments: (argument_list
+        (labeled_address
+          label: (identifier)
+          address: (hex_literal)))))
+  (return_trace
+    (tree_guide)
+    (tree_guide)
+    arrow: (return_arrow)
+    status: (return_status
+      (status_keyword)))
+  (creation_trace
+    (tree_guide)
+    gas: (gas
+      amount: (number))
+    arrow: (creation_arrow)
+    (keyword)
+    contract: (identifier)
+    address: (hex_literal))
+  (return_trace
+    (tree_guide)
+    (tree_guide)
+    arrow: (return_arrow)
+    status: (return_status
+      (status_keyword))
+    value: (bytes_of_code
+      (number)
+      (bytes_keyword)))
+  (return_trace
+    (tree_guide)
+    arrow: (return_arrow)
+    status: (stop_status
+      (status_keyword))))
+
+==================
+Events and Storage
+==================
+
+    ├─ emit Transfer(from: 0x8F73b65B4caAf64FBA2aF91cC5D4a2A1318E5D8C, to: Proof: [0x32552037733c123A8cBD1966528539514e00250f], amount: 416831487011304318246517 [4.168e23])
+    ├─  storage changes:
+    │   @ 0x7476b743a16e0315bdd0bcc7595d6e5344095a63e455db21c2559d8de1038dc3: 0x0000000000000000000000000000000000000000000058447aeda8e995191e75 → 0
+    │   @ 9: 0 → 1
+    ├─  emit topic 0: 0x7f9c1fe02f204587e3742437c420eda5e628aff49146a18748ba2c9472961854
+    │        topic 1: 0x000000000000000000000000f523224c6171f81c54b93f474ed4c78de91241c7
+    │           data: 0x123456
+
+---
+
+(source_file
+  (emit_trace
+    (tree_guide)
+    (keyword)
+    name: (identifier)
+    arguments: (argument_list
+      (named_argument
+        name: (identifier)
+        value: (hex_literal))
+      (named_argument
+        name: (identifier)
+        value: (labeled_address
+          label: (identifier)
+          address: (hex_literal)))
+      (named_argument
+        name: (identifier)
+        value: (number_with_estimate
+          value: (number)
+          estimate: (scientific_estimate
+            estimate: (estimate_value))))))
+  (storage_header
+    (tree_guide)
+    (storage_keyword))
+  (storage_change
+    (tree_guide)
+    slot: (hex_literal)
+    before: (hex_literal)
+    arrow: (change_arrow)
+    after: (number))
+  (storage_change
+    (tree_guide)
+    slot: (number)
+    before: (number)
+    arrow: (change_arrow)
+    after: (number))
+  (topic_entry
+    (tree_guide)
+    (keyword)
+    (keyword)
+    index: (number)
+    value: (hex_literal))
+  (topic_entry
+    (tree_guide)
+    (keyword)
+    index: (number)
+    value: (hex_literal))
+  (data_entry
+    (tree_guide)
+    (keyword)
+    value: (hex_literal)))
+
+==================
+Reverts and Calls
+==================
+
+    ├─ [2534] 0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c::balanceOf(0x8F73b65B4caAf64FBA2aF91cC5D4a2A1318E5D8C) [staticcall]
+    ├─ [55] Proof::receive{value: 402831596040670860741203}()
+    └─ ← [Revert] execution reverted
+
+---
+
+(source_file
+  (call_trace
+    (tree_guide)
+    gas: (gas
+      amount: (number))
+    call: (call_expression
+      target: (hex_literal)
+      function: (identifier)
+      arguments: (argument_list
+        (hex_literal)))
+    call_type: (call_type))
+  (call_trace
+    (tree_guide)
+    gas: (gas
+      amount: (number))
+    call: (call_expression
+      target: (identifier)
+      function: (identifier)
+      value: (value_transfer
+        (keyword)
+        amount: (number))
+      arguments: (argument_list)))
+  (return_trace
+    (tree_guide)
+    arrow: (return_arrow)
+    status: (revert_status
+      (revert_keyword))
+    value: (revert_message)))

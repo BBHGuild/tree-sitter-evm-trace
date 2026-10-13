@@ -1,0 +1,42 @@
+{
+  "grammars": [
+    {
+      "name": "evm_trace",
+      "camelcase": "EvmTrace",
+      "scope": "source.evm-trace",
+      "path": ".",
+      "file-types": [
+        "trace",
+        "traces",
+        "sol.trace"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "outline": [
+        "queries/outline.scm"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "license": "MIT",
+    "description": "Tree-sitter grammar for EVM execution traces",
+    "authors": [
+      {
+        "name": "Sean"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/BBHGuild/tree-sitter-evm-trace"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": false,
+    "node": true,
+    "python": false,
+    "rust": true,
+    "swift": false
+  }
+}
