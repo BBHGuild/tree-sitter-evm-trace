@@ -146,8 +146,8 @@
     "named": true,
     "fields": {
       "arguments": {
-        "multiple": false,
-        "required": true,
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "argument_list",
@@ -510,6 +510,25 @@
     }
   },
   {
+    "type": "logs_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "keyword",
+          "named": true
+        },
+        {
+          "type": "log_line",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "named_argument",
     "named": true,
     "fields": {
@@ -637,7 +656,7 @@
       },
       "status": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "return_status",
@@ -743,6 +762,29 @@
     }
   },
   {
+    "type": "runner_entry",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        },
+        {
+          "type": "logs_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "scientific_estimate",
     "named": true,
     "fields": {
@@ -793,6 +835,10 @@
         },
         {
           "type": "return_trace",
+          "named": true
+        },
+        {
+          "type": "runner_entry",
           "named": true
         },
         {
@@ -1190,6 +1236,10 @@
   },
   {
     "type": "keyword",
+    "named": true
+  },
+  {
+    "type": "log_line",
     "named": true
   },
   {

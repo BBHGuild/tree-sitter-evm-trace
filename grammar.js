@@ -19,6 +19,7 @@ module.exports = grammar({
       $.header,
       $.compile_entry,
       $.status_entry,
+      $.runner_entry,
       $.call_trace,
       $.creation_trace,
       $.return_trace,
@@ -54,7 +55,28 @@ module.exports = grammar({
       seq(alias(/Transaction successfully executed\.?/, $.string)),
       seq(alias(/[gG]as used:/, $.keyword), field('amount', $.number)),
       seq(alias(/Execution result:/, $.keyword), /.*/),
+      seq(alias(/=== Balance Changes ===/, $.keyword)),
     ),
+
+    runner_entry: $ => choice(
+      $.logs_block,
+      seq(alias(/No files changed[^\r\n]*/, $.comment)),
+      seq(alias(/Compiler[^\r\n]*/, $.comment)),
+      seq(alias(/Ran \d+ test[^\r\n]*/, $.comment)),
+      seq(alias(/Ran \d+ test suite[^\r\n]*/, $.comment)),
+      seq('[', alias(choice('PASS', 'FAIL'), $.keyword), ']', /.*/),
+      seq(alias(/Suite result:[^\r\n]*/, $.comment)),
+    ),
+
+    logs_block: $ => prec(1, seq(
+      alias('Logs:', $.keyword),
+      repeat($.log_line),
+    )),
+
+    log_line: $ => token(seq(
+      /[ \t]+/,
+      /[^\r\n├└│→←]+/,
+    )),
 
     tree_guide: $ => token(choice(
       /[├└]─+/,
@@ -70,7 +92,6 @@ module.exports = grammar({
       '\\--',
       '|',
     )),
-
 
     gas: $ => seq(
       '[',
@@ -98,8 +119,9 @@ module.exports = grammar({
       '::',
       field('function', choice($.identifier, alias(/[0-9a-fA-F]{8}/, $.hex_selector))),
       optional(field('value', $.value_transfer)),
-      field('arguments', $.argument_list),
+      repeat(field('arguments', $.argument_list)),
     ),
+
 
     value_transfer: $ => seq(
       '{',
@@ -166,7 +188,16 @@ module.exports = grammar({
           $._value,
         ))),
       ),
+      seq(
+        repeat($.tree_guide),
+        field('arrow', alias(choice('←', '<-'), $.return_arrow)),
+        optional(field('value', choice(
+          $.tuple_value,
+          $._value,
+        ))),
+      ),
     ),
+
 
     stop_status: $ => seq(
       '[',

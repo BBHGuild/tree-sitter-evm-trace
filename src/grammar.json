@@ -26,6 +26,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "runner_entry"
+        },
+        {
+          "type": "SYMBOL",
           "name": "call_trace"
         },
         {
@@ -234,8 +238,177 @@
               "value": ".*"
             }
           ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "=== Balance Changes ==="
+              },
+              "named": true,
+              "value": "keyword"
+            }
+          ]
         }
       ]
+    },
+    "runner_entry": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "logs_block"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "No files changed[^\\r\\n]*"
+              },
+              "named": true,
+              "value": "comment"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "Compiler[^\\r\\n]*"
+              },
+              "named": true,
+              "value": "comment"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "Ran \\d+ test[^\\r\\n]*"
+              },
+              "named": true,
+              "value": "comment"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "Ran \\d+ test suite[^\\r\\n]*"
+              },
+              "named": true,
+              "value": "comment"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "PASS"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "FAIL"
+                  }
+                ]
+              },
+              "named": true,
+              "value": "keyword"
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            },
+            {
+              "type": "PATTERN",
+              "value": ".*"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "Suite result:[^\\r\\n]*"
+              },
+              "named": true,
+              "value": "comment"
+            }
+          ]
+        }
+      ]
+    },
+    "logs_block": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "STRING",
+              "value": "Logs:"
+            },
+            "named": true,
+            "value": "keyword"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "log_line"
+            }
+          }
+        ]
+      }
+    },
+    "log_line": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[ \\t]+"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^\\r\\n├└│→←]+"
+          }
+        ]
+      }
     },
     "tree_guide": {
       "type": "TOKEN",
@@ -473,11 +646,14 @@
           ]
         },
         {
-          "type": "FIELD",
-          "name": "arguments",
+          "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "argument_list"
+            "type": "FIELD",
+            "name": "arguments",
+            "content": {
+              "type": "SYMBOL",
+              "name": "argument_list"
+            }
           }
         }
       ]
@@ -892,6 +1068,65 @@
                       {
                         "type": "SYMBOL",
                         "name": "revert_message"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_value"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "tree_guide"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "arrow",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "←"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "<-"
+                    }
+                  ]
+                },
+                "named": true,
+                "value": "return_arrow"
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "value",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "tuple_value"
                       },
                       {
                         "type": "SYMBOL",
