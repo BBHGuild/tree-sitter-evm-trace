@@ -55,6 +55,8 @@
 (status_entry
   (string) @string)
 
+(log_line) @string
+
 ; --- Functions & Selectors (Yellow / Gold / #DCDCAA) ---
 (call_expression
   function: (identifier) @function.method)
