@@ -256,6 +256,33 @@
     }
   },
   {
+    "type": "compile_entry",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "hex_literal",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        },
+        {
+          "type": "labeled_address",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "creation_trace",
     "named": true,
     "fields": {
@@ -745,6 +772,10 @@
           "named": true
         },
         {
+          "type": "compile_entry",
+          "named": true
+        },
+        {
           "type": "creation_trace",
           "named": true
         },
@@ -765,6 +796,10 @@
           "named": true
         },
         {
+          "type": "status_entry",
+          "named": true
+        },
+        {
           "type": "storage_change",
           "named": true
         },
@@ -774,6 +809,36 @@
         },
         {
           "type": "topic_entry",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "status_entry",
+    "named": true,
+    "fields": {
+      "amount": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "keyword",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         }
       ]

@@ -18,6 +18,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "compile_entry"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "status_entry"
+        },
+        {
+          "type": "SYMBOL",
           "name": "call_trace"
         },
         {
@@ -98,6 +106,137 @@
         }
       ]
     },
+    "compile_entry": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[cC]ompiling:?"
+              },
+              "named": true,
+              "value": "keyword"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "labeled_address"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "hex_literal"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[cC]ompiling:?"
+              },
+              "named": true,
+              "value": "keyword"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "labeled_address"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "status_entry": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "Transaction successfully executed\\.?"
+              },
+              "named": true,
+              "value": "string"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[gG]as used:"
+              },
+              "named": true,
+              "value": "keyword"
+            },
+            {
+              "type": "FIELD",
+              "name": "amount",
+              "content": {
+                "type": "SYMBOL",
+                "name": "number"
+              }
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "Execution result:"
+              },
+              "named": true,
+              "value": "keyword"
+            },
+            {
+              "type": "PATTERN",
+              "value": ".*"
+            }
+          ]
+        }
+      ]
+    },
     "tree_guide": {
       "type": "TOKEN",
       "content": {
@@ -150,6 +289,36 @@
           {
             "type": "STRING",
             "value": "|"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "│"
+              },
+              {
+                "type": "STRING",
+                "value": ";"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[0-9]+"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ";"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[0-9]+"
+              }
+            ]
           }
         ]
       }
@@ -1494,6 +1663,9 @@
     ],
     [
       "return_trace"
+    ],
+    [
+      "compile_entry"
     ]
   ],
   "precedences": [],

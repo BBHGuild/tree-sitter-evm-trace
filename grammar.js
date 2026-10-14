@@ -9,6 +9,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$.call_trace],
     [$.return_trace],
+    [$.compile_entry],
   ],
 
   rules: {
@@ -16,6 +17,8 @@ module.exports = grammar({
 
     _item: $ => choice(
       $.header,
+      $.compile_entry,
+      $.status_entry,
       $.call_trace,
       $.creation_trace,
       $.return_trace,
@@ -35,6 +38,24 @@ module.exports = grammar({
       alias(/[tT]races:/, $.header_keyword),
     ),
 
+    compile_entry: $ => choice(
+      seq(
+        alias(/[cC]ompiling:?/, $.keyword),
+        choice($.identifier, $.labeled_address),
+        choice($.hex_literal, $.identifier),
+      ),
+      seq(
+        alias(/[cC]ompiling:?/, $.keyword),
+        choice($.identifier, $.labeled_address),
+      ),
+    ),
+
+    status_entry: $ => choice(
+      seq(alias(/Transaction successfully executed\.?/, $.string)),
+      seq(alias(/[gG]as used:/, $.keyword), field('amount', $.number)),
+      seq(alias(/Execution result:/, $.keyword), /.*/),
+    ),
+
     tree_guide: $ => token(choice(
       /[├└]─+/,
       '├─',
@@ -48,6 +69,8 @@ module.exports = grammar({
       '+--',
       '\\--',
       '|',
+      seq('│', ';', /[0-9]+/),
+      seq(';', /[0-9]+/),
     )),
 
     gas: $ => seq(
