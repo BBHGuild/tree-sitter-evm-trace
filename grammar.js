@@ -6,6 +6,8 @@ module.exports = grammar({
     $.comment,
   ],
 
+  word: $ => $.identifier,
+
   conflicts: $ => [
     [$.call_trace],
     [$.return_trace],
@@ -40,6 +42,7 @@ module.exports = grammar({
     ),
 
     compile_entry: $ => choice(
+      seq(alias(/[cC]ompiling \d+ files? with [^\r\n]*/, $.comment)),
       seq(
         alias(/[cC]ompiling:?/, $.keyword),
         choice($.identifier, $.labeled_address),
@@ -53,15 +56,21 @@ module.exports = grammar({
 
     status_entry: $ => choice(
       seq(alias(/Transaction successfully executed\.?/, $.string)),
+      seq(alias(/Executing previous transactions from the block\.?/, $.comment)),
+      seq(alias(/No balance changes found[^\r\n]*/, $.comment)),
       seq(alias(/[gG]as used:/, $.keyword), field('amount', $.number)),
       seq(alias(/Execution result:/, $.keyword), /.*/),
-      seq(alias(/=== Balance Changes ===/, $.keyword)),
+      seq(alias(/=== [^\r\n=]+ ===/, $.keyword)),
     ),
 
     runner_entry: $ => choice(
       $.logs_block,
       seq(alias(/No files changed[^\r\n]*/, $.comment)),
       seq(alias(/Compiler[^\r\n]*/, $.comment)),
+      seq(alias(/Solc [^\r\n]*/, $.comment)),
+      seq(alias(/Warning[^\r\n]*/, $.comment)),
+      seq(alias(/Note:[^\r\n]*/, $.comment)),
+      seq(alias(/Project environment[^\r\n]*/, $.comment)),
       seq(alias(/Ran \d+ test[^\r\n]*/, $.comment)),
       seq(alias(/Ran \d+ test suite[^\r\n]*/, $.comment)),
       seq('[', alias(choice('PASS', 'FAIL'), $.keyword), ']', /.*/),
@@ -161,6 +170,7 @@ module.exports = grammar({
       optional(field('value', $.value_transfer)),
       '@',
       field('address', $.hex_literal),
+      optional(field('arguments', $.argument_list)),
     ),
 
     return_trace: $ => choice(
@@ -183,7 +193,6 @@ module.exports = grammar({
         field('arrow', alias(choice('←', '<-'), $.return_arrow)),
         field('status', $.revert_status),
         optional(field('value', choice(
-          $.custom_error,
           $.revert_message,
           $._value,
         ))),
@@ -201,7 +210,7 @@ module.exports = grammar({
 
     stop_status: $ => seq(
       '[',
-      alias(choice('Stop', 'Selfdestruct'), $.status_keyword),
+      alias(choice('Stop', 'Selfdestruct', 'SelfDestruct'), $.status_keyword),
       ']',
     ),
 
@@ -213,7 +222,25 @@ module.exports = grammar({
 
     revert_status: $ => seq(
       '[',
-      alias(choice('Revert', 'Panic'), $.revert_keyword),
+      alias(choice(
+        'Revert',
+        'Panic',
+        'OutOfGas',
+        'OutOfFunds',
+        'CallTooDeep',
+        'StackOverflow',
+        'StackUnderflow',
+        'InvalidOpcode',
+        'InvalidFEOpcode',
+        'InvalidJump',
+        'NotActivated',
+        'StateChangeDuringStaticCall',
+        'CreateCollision',
+        'OverflowPayment',
+        'PrecompileError',
+        'MemoryOOG',
+        'MemoryLimitOOG',
+      ), $.revert_keyword),
       ']',
     ),
 
@@ -272,21 +299,52 @@ module.exports = grammar({
       $.number_with_estimate,
       $.number,
       $.hex_literal,
-      $.raw_hex,
       $.string,
       $.boolean,
       $.labeled_address,
+      $.custom_error,
+      $.struct_value,
+      $.parenthesized_tuple,
       $.array,
       $.template_value,
       $.identifier,
+      $.raw_hex,
     ),
+
+    struct_value: $ => prec(2, seq(
+      optional(field('name', $.identifier)),
+      '{',
+      optional(seq(
+        $.struct_field,
+        repeat(seq(',', $.struct_field)),
+        optional(','),
+      )),
+      '}',
+    )),
+
+    struct_field: $ => seq(
+      optional(field('name', $.identifier)),
+      ':',
+      field('value', $._value),
+    ),
+
+    parenthesized_tuple: $ => prec(1, seq(
+      '(',
+      optional(seq(
+        $._argument,
+        repeat(seq(',', $._argument)),
+        optional(','),
+      )),
+      ')',
+    )),
 
     template_value: $ => /<[^>\r\n]+>/,
 
-    raw_hex: $ => prec(1, /[0-9a-fA-F]*[a-fA-F][0-9a-fA-F]*/),
+    raw_hex: $ => /[0-9][0-9a-fA-F]*[a-fA-F][0-9a-fA-F]*/,
 
     labeled_address: $ => prec(2, seq(
       field('label', $.identifier),
+      optional(alias(/v[0-9]+(\.[0-9]+)*/, $.identifier)),
       ':',
       '[',
       field('address', $.hex_literal),
@@ -300,7 +358,7 @@ module.exports = grammar({
 
     scientific_estimate: $ => seq(
       '[',
-      field('estimate', alias(/[0-9]+(\.[0-9]+)?[eE][+-]?[0-9]+|\.\./, $.estimate_value)),
+      field('estimate', alias(/[+-]?[0-9]+(\.[0-9]+)?[eE][+-]?[0-9]+|\.\./, $.estimate_value)),
       ']',
     ),
 
@@ -319,7 +377,7 @@ module.exports = grammar({
       ']',
     ),
 
-    number: $ => /[0-9][0-9_]*/,
+    number: $ => /[+-]?[0-9][0-9_]*/,
 
     hex_literal: $ => /0x[0-9a-fA-F]*/,
 

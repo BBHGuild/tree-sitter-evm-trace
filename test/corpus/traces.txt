@@ -187,3 +187,75 @@ Reverts and Calls
     status: (revert_status
       (revert_keyword))
     value: (revert_message)))
+
+==================
+Structs, Tuples, and Signed Values
+==================
+
+[1716675] → new <unknown>@0xF0F74b90aFB29903C80ED7531B50764C49089E25(0x60806040)
+    ├─ [81364] PoolManager::swap(PoolKey({ currency0: 0xdAC17F958D2ee523a2206206994597C13D831ec7, fee: 489960 [4.899e5] }), (-20000000000 [-2e10], true))
+    ├─ [25462] FiatTokenProxy::fallback(CurveRouter v1.2: [0x45312ea0eFf7E09C83CBE249fa1d7598c4C8cd4e], 6018729943078 [6.018e12])
+    └─ ← [OutOfFunds] EvmError: OutOfFunds
+
+---
+
+(source_file
+  (creation_trace
+    gas: (gas
+      amount: (number))
+    arrow: (creation_arrow)
+    (keyword)
+    contract: (template_value)
+    address: (hex_literal)
+    arguments: (argument_list
+      (hex_literal)))
+  (call_trace
+    (tree_guide)
+    gas: (gas
+      amount: (number))
+    call: (call_expression
+      target: (identifier)
+      function: (identifier)
+      arguments: (argument_list
+        (custom_error
+          name: (identifier)
+          arguments: (argument_list
+            (struct_value
+              (struct_field
+                name: (identifier)
+                value: (hex_literal))
+              (struct_field
+                name: (identifier)
+                value: (number_with_estimate
+                  value: (number)
+                  estimate: (scientific_estimate
+                    estimate: (estimate_value)))))))
+        (parenthesized_tuple
+          (number_with_estimate
+            value: (number)
+            estimate: (scientific_estimate
+              estimate: (estimate_value)))
+          (boolean)))))
+  (call_trace
+    (tree_guide)
+    gas: (gas
+      amount: (number))
+    call: (call_expression
+      target: (identifier)
+      function: (identifier)
+      arguments: (argument_list
+        (labeled_address
+          label: (identifier)
+          (identifier)
+          address: (hex_literal))
+        (number_with_estimate
+          value: (number)
+          estimate: (scientific_estimate
+            estimate: (estimate_value))))))
+  (return_trace
+    (tree_guide)
+    arrow: (return_arrow)
+    status: (revert_status
+      (revert_keyword))
+    value: (revert_message)))
+

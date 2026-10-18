@@ -20,6 +20,10 @@
           "named": true
         },
         {
+          "type": "custom_error",
+          "named": true
+        },
+        {
           "type": "hex_literal",
           "named": true
         },
@@ -44,11 +48,19 @@
           "named": true
         },
         {
+          "type": "parenthesized_tuple",
+          "named": true
+        },
+        {
           "type": "raw_hex",
           "named": true
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_value",
           "named": true
         },
         {
@@ -79,6 +91,10 @@
           "named": true
         },
         {
+          "type": "custom_error",
+          "named": true
+        },
+        {
           "type": "hex_literal",
           "named": true
         },
@@ -99,11 +115,19 @@
           "named": true
         },
         {
+          "type": "parenthesized_tuple",
+          "named": true
+        },
+        {
           "type": "raw_hex",
           "named": true
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_value",
           "named": true
         },
         {
@@ -264,6 +288,10 @@
       "required": true,
       "types": [
         {
+          "type": "comment",
+          "named": true
+        },
+        {
           "type": "hex_literal",
           "named": true
         },
@@ -292,6 +320,16 @@
         "types": [
           {
             "type": "hex_literal",
+            "named": true
+          }
+        ]
+      },
+      "arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "argument_list",
             "named": true
           }
         ]
@@ -507,6 +545,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -559,6 +607,10 @@
             "named": true
           },
           {
+            "type": "custom_error",
+            "named": true
+          },
+          {
             "type": "hex_literal",
             "named": true
           },
@@ -579,11 +631,19 @@
             "named": true
           },
           {
+            "type": "parenthesized_tuple",
+            "named": true
+          },
+          {
             "type": "raw_hex",
             "named": true
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_value",
             "named": true
           },
           {
@@ -621,9 +681,75 @@
     }
   },
   {
-    "type": "raw_hex",
+    "type": "parenthesized_tuple",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "bytes_of_code",
+          "named": true
+        },
+        {
+          "type": "custom_error",
+          "named": true
+        },
+        {
+          "type": "hex_literal",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "labeled_address",
+          "named": true
+        },
+        {
+          "type": "named_argument",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "number_with_estimate",
+          "named": true
+        },
+        {
+          "type": "parenthesized_tuple",
+          "named": true
+        },
+        {
+          "type": "raw_hex",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_value",
+          "named": true
+        },
+        {
+          "type": "template_value",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "return_status",
@@ -713,6 +839,10 @@
             "named": true
           },
           {
+            "type": "parenthesized_tuple",
+            "named": true
+          },
+          {
             "type": "raw_hex",
             "named": true
           },
@@ -722,6 +852,10 @@
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_value",
             "named": true
           },
           {
@@ -880,6 +1014,10 @@
       "required": true,
       "types": [
         {
+          "type": "comment",
+          "named": true
+        },
+        {
           "type": "keyword",
           "named": true
         },
@@ -997,6 +1135,110 @@
     }
   },
   {
+    "type": "struct_field",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "bytes_of_code",
+            "named": true
+          },
+          {
+            "type": "custom_error",
+            "named": true
+          },
+          {
+            "type": "hex_literal",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "labeled_address",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "number_with_estimate",
+            "named": true
+          },
+          {
+            "type": "parenthesized_tuple",
+            "named": true
+          },
+          {
+            "type": "raw_hex",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_value",
+            "named": true
+          },
+          {
+            "type": "template_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "struct_value",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "struct_field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "topic_entry",
     "named": true,
     "fields": {
@@ -1057,6 +1299,10 @@
           "named": true
         },
         {
+          "type": "custom_error",
+          "named": true
+        },
+        {
           "type": "hex_literal",
           "named": true
         },
@@ -1077,11 +1323,19 @@
           "named": true
         },
         {
+          "type": "parenthesized_tuple",
+          "named": true
+        },
+        {
           "type": "raw_hex",
           "named": true
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_value",
           "named": true
         },
         {
@@ -1112,6 +1366,10 @@
             "named": true
           },
           {
+            "type": "custom_error",
+            "named": true
+          },
+          {
             "type": "hex_literal",
             "named": true
           },
@@ -1132,11 +1390,19 @@
             "named": true
           },
           {
+            "type": "parenthesized_tuple",
+            "named": true
+          },
+          {
             "type": "raw_hex",
             "named": true
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_value",
             "named": true
           },
           {
@@ -1244,6 +1510,10 @@
   },
   {
     "type": "number",
+    "named": true
+  },
+  {
+    "type": "raw_hex",
     "named": true
   },
   {
